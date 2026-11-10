@@ -1,5 +1,5 @@
 # Identidade visual
-Fonte: prints do Figma (Cores, Tipografia, Elementos gráficos). Valores HEX lidos dos pixels dos prints. Implementação em `frontend/src/styles/tokens.css`.
+O Figma é apenas referência visual; nada é importado diretamente dele. A única peça de marca usada como arquivo é a logo, enviada pelo Davi. Fonte dos valores: prints do Figma (Cores, Tipografia, Elementos gráficos). Valores HEX lidos dos pixels dos prints. Implementação em `frontend/src/styles/tokens.css`.
 
 ## Cores (Light / Dark)
 | Token | Light | Dark |
@@ -18,10 +18,13 @@ Fonte: prints do Figma (Cores, Tipografia, Elementos gráficos). Valores HEX lid
 | Vermelho | #e64d49 | #f07674 |
 
 ## Tipografia: Inter
-Bold: títulos. Medium: subtítulos. Regular: textos e descrições. Semibold: botões. Logo em peso fino, com o "O" como símbolo de foco.
+Bold: títulos. Medium: subtítulos. Regular: textos e descrições. Semibold: botões. 
 
 ## Elementos gráficos
 Barras de progresso, cards arredondados, linhas/conexões para trilhas, ícones minimalistas, formas geométricas sutis em lilás.
 
 ## PENDENTE (não constava nos prints, valores provisórios)
 Tamanhos de fonte, espaçamentos, raios de borda e sombras. Confirmar no Figma e ajustar em `tokens.css`. As formas geométricas decorativas de fundo ainda não foram implementadas.
+
+## Logo
+Arquivos em `frontend/public/brand/`: `foco-logo.png` (tema claro), `foco-logo-dark.png` (letras claras para o tema escuro) e `foco-symbol.png` (só o símbolo, usado no favicon). Fundo transparente, gerados a partir do PNG original enviado. Uso: componente `<foco-logo [height]="40" />`, que alterna a versão conforme o tema. Se houver SVG ou PNG em alta resolução, substituir esses arquivos mantendo os nomes.

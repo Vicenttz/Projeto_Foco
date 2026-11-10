@@ -1,11 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-/** Logo FOCO: o primeiro "O" é o símbolo de foco (círculos concêntricos). */
+/**
+ * Logo oficial do FOCO (arquivos em public/brand).
+ * Troca automaticamente para a versão clara das letras no tema escuro.
+ * Use [height] para ajustar o tamanho (padrão 40px).
+ */
 @Component({
   selector: 'foco-logo',
   standalone: true,
-  template: `<span class="logo" aria-label="FOCO">F<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-    <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>CO</span>`,
-  styles: ['.logo{font-weight:300;font-size:1.75rem;letter-spacing:.12em;color:var(--color-primary);display:inline-flex;align-items:center}svg{margin:0 .05em}'],
+  template: `
+    <img class="light" src="brand/foco-logo.png" alt="FOCO" [style.height.px]="height" />
+    <img class="dark" src="brand/foco-logo-dark.png" alt="FOCO" [style.height.px]="height" />`,
+  styles: [`
+    :host { display: inline-flex; line-height: 0; }
+    img { width: auto; display: block; }
+    .dark { display: none; }
+    :host-context(:root[data-theme='dark']) .light { display: none; }
+    :host-context(:root[data-theme='dark']) .dark { display: block; }
+  `],
 })
-export class LogoComponent {}
+export class LogoComponent {
+  @Input() height = 40;
+}
