@@ -1,0 +1,47 @@
+/* FOCO design tokens. Cores extraídas do Figma (prints de Cores/Tipografia).
+   Pendente de confirmação no Figma: espaçamentos, raios e sombras (ver docs/identidade-visual.md). */
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+
+  --fs-title-lg: 1.75rem; --fs-title: 1.375rem; --fs-subtitle: 1.0625rem;
+  --fs-body: 0.9375rem; --fs-small: 0.8125rem;
+
+  --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem;
+  --space-5: 1.5rem; --space-6: 2rem; --space-7: 3rem;
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-full: 999px;
+  --shadow-card: 0 1px 2px rgb(38 35 56 / .06), 0 4px 16px rgb(38 35 56 / .05);
+
+  /* Light mode */
+  --color-primary: #8746eb;
+  --color-primary-soft: #a87af3;
+  --color-bg: #ffffff;
+  --color-surface: #f5f3fa;
+  --color-text: #262338;
+  --color-text-muted: #777487;
+  --color-border: #e6e1ef;
+  --color-success: #39b881;
+  --color-blue: #5180f4;
+  --color-green: #39b881;
+  --color-orange: #eda125;
+  --color-red: #e64d49;
+  --color-on-primary: #ffffff;
+  --focus-ring: 0 0 0 3px rgb(135 70 235 / .35);
+}
+:root[data-theme='dark'] {
+  --color-primary: #a577f3;
+  --color-primary-soft: #c1a1fd;
+  --color-bg: #171520;
+  --color-surface: #242130;
+  --color-text: #f4f0fa;
+  --color-text-muted: #aaa3b8;
+  --color-border: #393445;
+  --color-success: #51d299;
+  --color-blue: #6fa3f8;
+  --color-green: #51d299;
+  --color-orange: #f4c135;
+  --color-red: #f07674;
+  --color-on-primary: #171520;
+  --focus-ring: 0 0 0 3px rgb(165 119 243 / .45);
+  --shadow-card: 0 1px 2px rgb(0 0 0 / .3);
+}
