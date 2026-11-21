@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """Configuração do backend.
 
 Funciona SEM nenhum arquivo .env: usa SQLite (arquivo foco.db) e gera uma chave secreta local.
@@ -42,6 +43,23 @@ class Settings(BaseSettings):
         if not self.SECRET_KEY:
             self.SECRET_KEY = _chave_local()
         return self
+=======
+"""Configuração do backend. Tudo vem de variáveis de ambiente (ou do arquivo .env local)."""
+from functools import lru_cache
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+
+    DATABASE_URL: str
+    SECRET_KEY: str
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 480
+    # Lista separada por vírgulas. Em desenvolvimento: o Angular em localhost:4200.
+    CORS_ORIGINS: str = "http://localhost:4200"
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 
     @property
     def cors_origins_list(self) -> list[str]:

@@ -38,10 +38,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+<<<<<<< HEAD
             "outputPath": {
               "base": "../backend/static",
               "browser": ""
             },
+=======
+            "outputPath": "dist/frontend",
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -69,6 +73,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
+<<<<<<< HEAD
                   "maximumWarning": "8kB",
                   "maximumError": "16kB"
                 }
@@ -82,6 +87,13 @@
                 },
                 "fonts": false
               }
+=======
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
             },
             "development": {
               "optimization": false,
@@ -101,10 +113,14 @@
               "buildTarget": "frontend:build:development"
             }
           },
+<<<<<<< HEAD
           "defaultConfiguration": "development",
           "options": {
             "proxyConfig": "proxy.conf.json"
           }
+=======
+          "defaultConfiguration": "development"
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -132,4 +148,8 @@
       }
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca

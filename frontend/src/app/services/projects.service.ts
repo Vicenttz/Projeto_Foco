@@ -8,7 +8,11 @@ export class ProjectsService {
   private api = inject(ApiService);
   list() { return this.api.get<Project[]>('/projetos'); }
   get(id: number) { return this.api.get<Project>(`/projetos/${id}`); }
+<<<<<<< HEAD
   create(data: Omit<Project, 'id' | 'progresso'>) { return this.api.post<Project>('/projetos', data); }
+=======
+  create(data: Omit<Project, 'id'>) { return this.api.post<Project>('/projetos', data); }
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
   update(id: number, data: Partial<Project>) { return this.api.put<Project>(`/projetos/${id}`, data); }
   remove(id: number) { return this.api.delete<void>(`/projetos/${id}`); }
 }

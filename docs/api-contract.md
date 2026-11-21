@@ -10,7 +10,11 @@ Documentação interativa: `http://localhost:8000/docs`.
 | POST | /auth/login | {email, senha} | 200 {token, usuario: User} |
 | GET | /auth/me | - | User |
 
+<<<<<<< HEAD
 `User` = `{id, nome, email, papel}` (`papel`: `usuario` | `admin`). Senha e hash nunca são devolvidos. E-mail repetido no cadastro: 409.
+=======
+`User` = `{id, nome, email}`. Senha e hash nunca são devolvidos. E-mail repetido no cadastro: 409.
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 
 ## Recursos (CRUD). Cada um filtra pelo usuário autenticado
 Rotas: `/disciplinas`, `/tarefas`, `/projetos`, `/trilhas`, `/eventos`.
@@ -58,6 +62,7 @@ Detalhes:
 ```
 `pendentes` = tudo que não está concluído (inclui em andamento), igual à conta que o dashboard do frontend já faz.
 
+<<<<<<< HEAD
 ## Administração (só `papel = admin`; usuário comum recebe 403)
 | Método | Rota | Descrição |
 |---|---|---|
@@ -66,10 +71,16 @@ Detalhes:
 | PUT | /admin/usuarios/{id} | `{papel: "usuario"\|"admin"}`. Não permite remover o próprio acesso (422) |
 | DELETE | /admin/usuarios/{id} | Exclui o usuário e todos os dados dele (204). Não permite excluir a si mesmo (422) |
 
+=======
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 ## IA (Richard)
 `POST /assistente/mensagem {texto}` -> `{texto}`. **Provisório**: devolve uma resposta fixa (requer login). O Richard substitui `routers/assistente.py`.
 Sugestões de tarefas/calendário: formato a definir. A IA nunca altera dados sozinha.
 
 ## Erros
 Sempre `{ "detail": "mensagem" }`: 401 (sem token/token inválido/login errado), 404 (não encontrado ou de outro usuário), 409 (e-mail já cadastrado),
+<<<<<<< HEAD
 403 (rota só de admin), 422 (validação; `detail` é um texto, ex.: `"email: value is not a valid email address"`).
+=======
+422 (validação; `detail` é um texto, ex.: `"email: value is not a valid email address"`). 403 não é usado hoje.
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca

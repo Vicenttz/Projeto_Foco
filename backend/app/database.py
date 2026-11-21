@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from sqlalchemy import create_engine, event
+=======
+from sqlalchemy import create_engine
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from sqlalchemy.pool import StaticPool
 
@@ -10,6 +14,7 @@ class Base(DeclarativeBase):
 
 
 def _criar_engine(url: str):
+<<<<<<< HEAD
     if url.startswith("sqlite"):  # banco local padrão (e testes)
         kwargs: dict = {"connect_args": {"check_same_thread": False}}
         if url in ("sqlite://", "sqlite:///") or ":memory:" in url:
@@ -23,6 +28,13 @@ def _criar_engine(url: str):
             cur.close()
 
         return eng
+=======
+    if url.startswith("sqlite"):  # usado só nos testes
+        kwargs: dict = {"connect_args": {"check_same_thread": False}}
+        if url in ("sqlite://", "sqlite:///") or ":memory:" in url:
+            kwargs["poolclass"] = StaticPool
+        return create_engine(url, **kwargs)
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
     return create_engine(url, pool_pre_ping=True)
 
 

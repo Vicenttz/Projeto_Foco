@@ -34,7 +34,10 @@ class UserOut(CamelModel):  # nunca inclui senha nem hash
     id: int
     nome: str
     email: str
+<<<<<<< HEAD
     papel: str = "usuario"
+=======
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 
 
 class LoginOut(CamelModel):

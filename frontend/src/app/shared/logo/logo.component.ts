@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 
+<<<<<<< HEAD
 /** Logo do FOCO em SVG: acompanha as cores escolhidas na aba Aparência (os PNGs em public/brand seguem no favicon). */
 @Component({
   selector: 'foco-logo',
@@ -16,4 +17,27 @@ import { Component, Input } from '@angular/core';
 export class LogoComponent {
   @Input() height = 36;
   @Input() showText = true;
+=======
+/**
+ * Logo oficial do FOCO (arquivos em public/brand).
+ * Troca automaticamente para a versão clara das letras no tema escuro.
+ * Use [height] para ajustar o tamanho (padrão 40px).
+ */
+@Component({
+  selector: 'foco-logo',
+  standalone: true,
+  template: `
+    <img class="light" src="brand/foco-logo.png" alt="FOCO" [style.height.px]="height" />
+    <img class="dark" src="brand/foco-logo-dark.png" alt="FOCO" [style.height.px]="height" />`,
+  styles: [`
+    :host { display: inline-flex; line-height: 0; }
+    img { width: auto; display: block; }
+    .dark { display: none; }
+    :host-context(:root[data-theme='dark']) .light { display: none; }
+    :host-context(:root[data-theme='dark']) .dark { display: block; }
+  `],
+})
+export class LogoComponent {
+  @Input() height = 40;
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 }

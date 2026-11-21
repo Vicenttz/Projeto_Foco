@@ -28,6 +28,7 @@ FastAPI em `backend/` (routers, services, models, schemas, core): cadastro, logi
 ### Falta
 - Integração de auth no frontend (authGuard, interceptor do token, chamadas de login/cadastro), em commits separados e com aviso ao Davi.
 - Trocar models pelo esquema oficial do Richard; testar com MySQL real; rodar frontend + API juntos.
+<<<<<<< HEAD
 
 ## Integração completa (frontend + backend + banco)
 ### Corrigido
@@ -43,3 +44,5 @@ FastAPI em `backend/` (routers, services, models, schemas, core): cadastro, logi
 ### Falta
 - Substituir os models provisórios pelo esquema oficial do Richard (se houver) e integrar a Gemini no assistente.
 - Recuperação de senha; remover os botões de conta de teste da tela de login antes de produção.
+=======
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca

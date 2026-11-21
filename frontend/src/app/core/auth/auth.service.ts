@@ -20,7 +20,10 @@ export class AuthService {
 
   readonly usuario = this.userSig.asReadonly();
   readonly logado = computed(() => this.tokenSig() !== null);
+<<<<<<< HEAD
   readonly ehAdmin = computed(() => this.userSig()?.papel === 'admin');
+=======
+>>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 
   get token(): string | null { return this.tokenSig(); }
 
