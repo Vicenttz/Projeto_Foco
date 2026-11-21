@@ -1,0 +1,6 @@
+.pytest_cache/
+*.db
+.secret_key
+.env
+venv/
+__pycache__/

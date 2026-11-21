@@ -1,0 +1,47 @@
+import { Component, Input } from '@angular/core';
+
+const PATHS: Record<string, string> = {
+  home: 'M3 11l9-8 9 8M5 10v10h14V10',
+  book: 'M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19a2 2 0 012-2h13',
+  check: 'M4 12l5 5L20 6',
+  folder: 'M3 6a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z',
+  route: 'M6 19a2 2 0 100-4 2 2 0 000 4zM18 9a2 2 0 100-4 2 2 0 000 4zM8 17h6a3 3 0 003-3v-3',
+  calendar: 'M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1zM4 10h16M9 3v4M15 3v4',
+  focus: 'M12 12m-9 0a9 9 0 1018 0 9 9 0 10-18 0M12 12m-4 0a4 4 0 108 0 4 4 0 10-8 0',
+  chat: 'M4 5h16v11H9l-5 4z',
+  user: 'M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0',
+  settings: 'M12 15a3 3 0 100-6 3 3 0 000 6zM4 12h2m12 0h2M12 4v2m0 12v2',
+  sun: 'M12 16a4 4 0 100-8 4 4 0 000 8zM12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5',
+  moon: 'M20 14A8 8 0 0110 4a8 8 0 1010 10z',
+  plus: 'M12 5v14M5 12h14',
+  menu: 'M4 6h16M4 12h16M4 18h16',
+  eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z',
+  logout: 'M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9',
+  trash: 'M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5',
+  edit: 'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4',
+  shield: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z',
+  palette: 'M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-6-4-11-8-11zM7.5 11h.01M10 7.5h.01M14.5 7.5h.01',
+  sparkles: 'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z',
+  play: 'M7 4l13 8-13 8z',
+  pause: 'M8 5v14M16 5v14',
+  close: 'M6 6l12 12M18 6L6 18',
+  send: 'M22 2L11 13M22 2l-7 20-4-9-9-4z',
+  left: 'M15 18l-6-6 6-6',
+  right: 'M9 6l6 6-6 6',
+  star: 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z',
+  reset: 'M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8M3 3v5h5',
+};
+
+/** Ícones minimalistas de traço. Uso: <foco-icon name="home" /> */
+@Component({
+  selector: 'foco-icon',
+  standalone: true,
+  template: `<svg [attr.width]="size" [attr.height]="size" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path [attr.d]="path" /></svg>`,
+  styles: [':host{display:inline-flex}'],
+})
+export class IconComponent {
+  @Input() name = 'home';
+  @Input() size = 20;
+  get path() { return PATHS[this.name] ?? ''; }
+}
