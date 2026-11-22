@@ -11,16 +11,11 @@ const PATHS: Record<string, string> = {
   chat: 'M4 5h16v11H9l-5 4z',
   user: 'M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0',
   settings: 'M12 15a3 3 0 100-6 3 3 0 000 6zM4 12h2m12 0h2M12 4v2m0 12v2',
-<<<<<<< HEAD
   sun: 'M12 16a4 4 0 100-8 4 4 0 000 8zM12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5',
-=======
-  sun: 'M12 16a4 4 0 100-8 4 4 0 000 8zM12 2v2m0 16v2M2 12h2m16 0h2',
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
   moon: 'M20 14A8 8 0 0110 4a8 8 0 1010 10z',
   plus: 'M12 5v14M5 12h14',
   menu: 'M4 6h16M4 12h16M4 18h16',
   eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z',
-<<<<<<< HEAD
   logout: 'M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9',
   trash: 'M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5',
   edit: 'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4',
@@ -38,11 +33,6 @@ const PATHS: Record<string, string> = {
 };
 
 /** Ícones minimalistas de traço. Uso: <foco-icon name="home" /> */
-=======
-};
-
-/** Ícones minimalistas de traço (estilo do Figma). Uso: <foco-icon name="home" /> */
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 @Component({
   selector: 'foco-icon',
   standalone: true,

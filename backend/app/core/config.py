@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """Configuração do backend.
 
 Funciona SEM nenhum arquivo .env: usa SQLite (arquivo foco.db) e gera uma chave secreta local.
@@ -37,29 +36,16 @@ class Settings(BaseSettings):
     SEED_DEMO: bool = True
     # Pasta com o frontend já compilado (servido pela própria API).
     FRONTEND_DIR: str = str(BASE_DIR / "static")
+    # OPCIONAL: com uma chave do Gemini, a mensagem diária é reescrita pela IA (a agenda do usuário é enviada ao Google).
+    # Sem chave, o assistente usa regras locais e nada sai do seu computador.
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-2.0-flash"
 
     @model_validator(mode="after")
     def _chave(self):
         if not self.SECRET_KEY:
             self.SECRET_KEY = _chave_local()
         return self
-=======
-"""Configuração do backend. Tudo vem de variáveis de ambiente (ou do arquivo .env local)."""
-from functools import lru_cache
-
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
-
-class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
-
-    DATABASE_URL: str
-    SECRET_KEY: str
-    ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 480
-    # Lista separada por vírgulas. Em desenvolvimento: o Angular em localhost:4200.
-    CORS_ORIGINS: str = "http://localhost:4200"
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 
     @property
     def cors_origins_list(self) -> list[str]:

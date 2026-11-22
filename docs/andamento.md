@@ -28,7 +28,6 @@ FastAPI em `backend/` (routers, services, models, schemas, core): cadastro, logi
 ### Falta
 - Integração de auth no frontend (authGuard, interceptor do token, chamadas de login/cadastro), em commits separados e com aviso ao Davi.
 - Trocar models pelo esquema oficial do Richard; testar com MySQL real; rodar frontend + API juntos.
-<<<<<<< HEAD
 
 ## Integração completa (frontend + backend + banco)
 ### Corrigido
@@ -44,5 +43,16 @@ FastAPI em `backend/` (routers, services, models, schemas, core): cadastro, logi
 ### Falta
 - Substituir os models provisórios pelo esquema oficial do Richard (se houver) e integrar a Gemini no assistente.
 - Recuperação de senha; remover os botões de conta de teste da tela de login antes de produção.
-=======
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
+
+## Calendário interativo + mensagem diária da IA (Yan)
+### Feito
+- Calendário reformulado (`pages/calendario`): visões mês/semana, agendar **provas** e **sessões de estudo** (horário, duração, disciplina, observações), arrastar compromissos para reagendar, marcar estudo como feito, filtro por tipo, painel do dia, próximas provas com contagem regressiva e horas de estudo agendadas.
+- Eventos ganharam `prova` e os campos `hora`, `duracaoMin`, `disciplinaId`, `descricao`, `concluido` (contrato em `docs/api-contract.md`). Bancos já existentes são migrados sozinhos (`seed._adicionar_colunas`); a conta de teste antiga é atualizada com uma prova e um estudo.
+- Mensagem do dia (`GET /assistente/diario`, `services/briefing.py`): o assistente lê a agenda e as tarefas, avisa de provas, cobra estudo não agendado e sugere ações (que abrem o calendário pré-preenchido). Pop-up na primeira entrada do dia, botão no topo e abertura do chat do Assistente.
+- O chat provisório (`/assistente/mensagem`) passou a responder perguntas de agenda com o mesmo resumo.
+### Decisões e riscos
+- O texto padrão é montado por **regras** (determinístico, sem enviar dados a terceiros). A reescrita pelo Gemini é opcional (`GEMINI_API_KEY`) e **ainda não foi testada contra a API real**; o Richard pode trocar por `services/ai/`.
+- A mensagem do dia fica guardada no navegador até o calendário mudar (invalida o cache).
+- Arquivos do Davi alterados: `calendario.component.ts` (reescrito), `assistente.component.ts`, `main-layout.component.ts` (botão + pop-up), `models/index.ts` e `core/util/data.ts`. **Davi: revisar.**
+### Falta
+- Lembretes fora do app (notificação do navegador/e-mail) e edição de horário arrastando na semana. Os testes novos estão em `backend/tests/test_calendario.py`.

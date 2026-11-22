@@ -1,15 +1,25 @@
+from datetime import date
+
 from fastapi import APIRouter
 
 from app.dependencies import CurrentUser, DbSession
-from app.schemas.evento import EventoCreate, EventoUpdate, EventoOut
+from app.schemas.base import TipoEvento
+from app.schemas.evento import EventoCreate, EventoOut, EventoUpdate
 from app.services import evento_service
 
 router = APIRouter(prefix="/eventos", tags=["Eventos"])
 
 
 @router.get("", response_model=list[EventoOut])
-def listar(db: DbSession, usuario: CurrentUser):
-    return evento_service.listar(db, usuario)
+def listar(
+    db: DbSession,
+    usuario: CurrentUser,
+    de: date | None = None,
+    ate: date | None = None,
+    tipo: TipoEvento | None = None,
+):
+    """Lista a agenda do usuário. Filtros opcionais: `de` e `ate` (AAAA-MM-DD, inclusivos) e `tipo`."""
+    return evento_service.listar(db, usuario, de, ate, tipo)
 
 
 @router.get("/{id}", response_model=EventoOut)

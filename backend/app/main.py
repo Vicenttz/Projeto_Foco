@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -8,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 
 from app.core.config import get_settings
-from app.routers import admin, assistente, auth, dashboard, disciplinas, eventos, foco, projetos, tarefas, trilhas
+from app.routers import admin, assistente, auth, briefing, dashboard, disciplinas, eventos, foco, projetos, tarefas, trilhas
 from app.services import seed
 
 
@@ -20,17 +19,6 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(title="FOCO API", version="0.2.0", description="API do FOCO. Docs em /docs.", lifespan=lifespan)
-=======
-from fastapi import FastAPI, Request
-from fastapi.exceptions import RequestValidationError
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-
-from app.core.config import get_settings
-from app.routers import assistente, auth, dashboard, disciplinas, eventos, foco, projetos, tarefas, trilhas
-
-app = FastAPI(title="FOCO API", version="0.1.0", description="API do FOCO. Docs em /docs.")
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 
 app.add_middleware(
     CORSMiddleware,
@@ -55,8 +43,7 @@ def health():
     return {"status": "ok"}
 
 
-<<<<<<< HEAD
-for r in (auth, disciplinas, tarefas, projetos, trilhas, eventos, foco, dashboard, assistente, admin):
+for r in (auth, disciplinas, tarefas, projetos, trilhas, eventos, foco, dashboard, assistente, briefing, admin):
     app.include_router(r.router, prefix="/api")
 
 
@@ -82,7 +69,3 @@ def frontend(caminho: str):
     if caminho and alvo.is_file() and _FRONT.resolve() in alvo.parents:
         return FileResponse(alvo)
     return FileResponse(index)  # rotas do Angular (/dashboard, /login...) caem no index.html
-=======
-for r in (auth, disciplinas, tarefas, projetos, trilhas, eventos, foco, dashboard, assistente):
-    app.include_router(r.router, prefix="/api")
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca

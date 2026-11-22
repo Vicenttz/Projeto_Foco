@@ -30,7 +30,6 @@ def get_current_user(
 
 
 CurrentUser = Annotated[Usuario, Depends(get_current_user)]
-<<<<<<< HEAD
 
 
 def get_admin(usuario: CurrentUser) -> Usuario:
@@ -40,5 +39,3 @@ def get_admin(usuario: CurrentUser) -> Usuario:
 
 
 AdminUser = Annotated[Usuario, Depends(get_admin)]
-=======
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca

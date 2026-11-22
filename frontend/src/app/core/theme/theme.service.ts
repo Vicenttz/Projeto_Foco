@@ -1,6 +1,5 @@
 import { Injectable, signal } from '@angular/core';
 
-<<<<<<< HEAD
 export type Mode = 'auto' | 'light' | 'dark';
 export type CardStyle = 'glass' | 'solid' | 'outline';
 export type BgStyle = 'blobs' | 'grid' | 'dots' | 'plain';
@@ -95,12 +94,4 @@ export class ThemeService {
   private carregar(): Aparencia {
     try { return { ...BASE, ...JSON.parse(localStorage.getItem(KEY) ?? '{}') }; } catch { return { ...BASE }; }
   }
-=======
-@Injectable({ providedIn: 'root' })
-export class ThemeService {
-  theme = signal<'light' | 'dark'>(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  constructor() { this.apply(); }
-  toggle() { this.theme.update(t => (t === 'light' ? 'dark' : 'light')); this.apply(); }
-  private apply() { document.documentElement.setAttribute('data-theme', this.theme()); }
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 }

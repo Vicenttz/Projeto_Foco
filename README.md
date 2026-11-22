@@ -1,7 +1,6 @@
 # FOCO
 
-<<<<<<< HEAD
-Plataforma web de organização e produtividade para estudantes: disciplinas, tarefas, projetos, trilhas de aprendizagem, calendário, foco com temporizador e um assistente de IA.
+Plataforma web de organização e produtividade para estudantes: disciplinas, tarefas, projetos, trilhas de aprendizagem, calendário interativo (provas e estudos), foco com temporizador e um assistente de IA que lê a agenda e manda a mensagem do dia.
 
 > O FOCO não decide como o estudante deve estudar. Ele oferece ferramentas e inteligência para que o próprio estudante consiga se organizar melhor.
 
@@ -79,26 +78,3 @@ Senhas com bcrypt · login por JWT · cada usuário só enxerga os próprios dad
 ## 🌿 Fluxo no GitHub
 
 Ninguém trabalha direto na `main`: branches `feature/...`, commits pequenos e Pull Request. Atualize `docs/andamento.md` a cada entrega.
-=======
-Plataforma web de organização e produtividade para estudantes: disciplinas, tarefas, projetos, trilhas de aprendizagem, calendário e um assistente de IA.
-> O FOCO não decide como o estudante deve estudar. Ele oferece ferramentas e inteligência para que o próprio estudante consiga se organizar melhor.
-
-## Tecnologias
-Frontend: Angular 19 + TypeScript. Futuro: Python/FastAPI, MySQL, Gemini API.
-
-## Estrutura
-```
-frontend/   Angular (Davi)        backend/  FastAPI (Yan)
-database/   MySQL (Richard)       docs/     documentação
-```
-
-## Rodar o frontend
-```bash
-cd frontend
-npm install
-npm start        # http://localhost:4200
-```
-
-## Fluxo no GitHub
-Ninguém trabalha na `main`. Branches: `feature/frontend-foundation` (Davi), `feature/backend-api` (Yan), `feature/database-ai` (Richard). Commits pequenos e Pull Request para a `main`. Atualize `docs/andamento.md` a cada entrega.
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca

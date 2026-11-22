@@ -3,11 +3,7 @@ def test_cadastro_nao_devolve_senha(client):
     assert r.status_code == 201
     corpo = r.json()
     assert corpo["email"] == "ana@example.com"
-<<<<<<< HEAD
     assert set(corpo) == {"id", "nome", "email", "papel"}
-=======
-    assert set(corpo) == {"id", "nome", "email"}
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 
 
 def test_email_duplicado(client, ana):

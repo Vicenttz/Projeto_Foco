@@ -10,11 +10,7 @@ Documentação interativa: `http://localhost:8000/docs`.
 | POST | /auth/login | {email, senha} | 200 {token, usuario: User} |
 | GET | /auth/me | - | User |
 
-<<<<<<< HEAD
 `User` = `{id, nome, email, papel}` (`papel`: `usuario` | `admin`). Senha e hash nunca são devolvidos. E-mail repetido no cadastro: 409.
-=======
-`User` = `{id, nome, email}`. Senha e hash nunca são devolvidos. E-mail repetido no cadastro: 409.
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 
 ## Recursos (CRUD). Cada um filtra pelo usuário autenticado
 Rotas: `/disciplinas`, `/tarefas`, `/projetos`, `/trilhas`, `/eventos`.
@@ -33,8 +29,23 @@ Detalhes:
 - Projetos e trilhas incluem `etapas[]`. Em POST/PUT, `etapas` é a lista completa: item com `id` existente é atualizado, sem `id` é criado, ausente é removido. Se `etapas` não for enviado no PUT, não muda.
 - Excluir uma disciplina não apaga suas tarefas: elas ficam com `disciplinaId: null`.
 - Concluir uma tarefa a tira do foco.
-- Enums: prioridade `baixa|media|alta`; status `pendente|em_andamento|concluida`; tipo de evento `tarefa|entrega|evento|estudo`.
-- Defaults no POST: tarefa `prioridade=media`, `status=pendente`; evento `tipo=evento`; projeto `status=pendente`. `prazo`, `dataEntrega` e `data` são obrigatórios.
+- Enums: prioridade `baixa|media|alta`; status `pendente|em_andamento|concluida`; tipo de evento `prova|estudo|entrega|tarefa|evento`.
+- Defaults no POST: tarefa `prioridade=media`, `status=pendente`; evento `tipo=evento`, `concluido=false`; projeto `status=pendente`. `prazo`, `dataEntrega` e `data` são obrigatórios.
+
+## Calendário interativo: provas e estudos (`/eventos`)
+Além de `id`, `titulo`, `data` e `tipo`, o evento tem campos opcionais (todos `null`/ausentes nos eventos antigos):
+
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `hora` | `"HH:MM"` ou null | Horário. Sem hora = dia inteiro. Aceita também `"HH:MM:SS"` e `""` (vira null) |
+| `duracaoMin` | inteiro (5 a 1440) ou null | Duração em minutos (útil nas sessões de estudo) |
+| `disciplinaId` | inteiro ou null | Disciplina do usuário (de outro usuário: **404**). Excluir a disciplina limpa este campo |
+| `descricao` | texto (até 2000) ou null | Observações |
+| `concluido` | boolean (padrão false) | Marca a sessão de estudo/entrega como feita |
+
+- `GET /eventos` aceita filtros opcionais `?de=AAAA-MM-DD&ate=AAAA-MM-DD&tipo=prova` e vem ordenado por data e hora (sem hora primeiro).
+- No `PUT`, enviar `null` em `hora`, `duracaoMin`, `disciplinaId` ou `descricao` **limpa** o campo. Para reagendar basta `PUT {data}`.
+- Mudança de contrato: o tipo `prova` é novo. O frontend ganhou os campos acima em `models/index.ts` (`CalendarEvent`).
 
 ## Foco e prioridades (NOVO, proposta)
 | Método | Rota | Descrição |
@@ -62,7 +73,6 @@ Detalhes:
 ```
 `pendentes` = tudo que não está concluído (inclui em andamento), igual à conta que o dashboard do frontend já faz.
 
-<<<<<<< HEAD
 ## Administração (só `papel = admin`; usuário comum recebe 403)
 | Método | Rota | Descrição |
 |---|---|---|
@@ -71,16 +81,27 @@ Detalhes:
 | PUT | /admin/usuarios/{id} | `{papel: "usuario"\|"admin"}`. Não permite remover o próprio acesso (422) |
 | DELETE | /admin/usuarios/{id} | Exclui o usuário e todos os dados dele (204). Não permite excluir a si mesmo (422) |
 
-=======
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca
 ## IA (Richard)
-`POST /assistente/mensagem {texto}` -> `{texto}`. **Provisório**: devolve uma resposta fixa (requer login). O Richard substitui `routers/assistente.py`.
-Sugestões de tarefas/calendário: formato a definir. A IA nunca altera dados sozinha.
+`POST /assistente/mensagem {texto}` -> `{texto}`. **Provisório** (o Richard substitui `routers/assistente.py`): perguntas sobre hoje, agenda,
+calendário, provas, estudos, semana ou prazos respondem com o resumo da agenda; as demais recebem uma resposta fixa. Requer login.
+
+### Mensagem do dia (NOVO): a IA lê o calendário
+`GET /assistente/diario?data=AAAA-MM-DD&hora=0-23` (os dois parâmetros são opcionais; o frontend manda os do navegador do usuário).
+```json
+{
+  "data": "2026-06-10", "saudacao": "Bom dia, Ana!",
+  "texto": "Hoje na sua agenda: Estudo de SQL às 19:00.\nProva de Cálculo é em 3 dias (sáb, 13/06, às 14:00). Ainda não há estudo agendado para ela.",
+  "hoje": [{"id": 1, "tipo": "estudo", "titulo": "Estudo de SQL", "data": "2026-06-10", "hora": "19:00", "quando": "hoje", "disciplina": "Banco de Dados"}],
+  "proximos": ["Destaque (até 5 compromissos futuros)"],
+  "sugestoes": [{"texto": "Agendar estudo para Prova de Cálculo", "rota": "/calendario", "query": {"novo": "estudo", "data": "2026-06-11", "disciplinaId": "1"}}],
+  "geradoPor": "regras"
+}
+```
+- O backend lê as provas, estudos e entregas dos próximos 21 dias e as tarefas do usuário. Avisa de provas próximas, se **falta agendar estudo** antes de cada prova (sessões concluídas não contam), entregas da semana, tarefas atrasadas e o foco atual.
+- `sugestoes` só **sugerem**: `rota` + `query` abrem a tela já pré-preenchida (ex.: `/calendario?novo=estudo&data=...&disciplinaId=...`). A IA nunca cria nem altera dados sozinha.
+- `geradoPor`: `regras` (padrão, texto montado localmente, nada sai do computador) ou `gemini` (com `GEMINI_API_KEY` no `.env`, o texto é reescrito pela IA; **a agenda do usuário é enviada ao Google** e, se a chamada falhar, volta a `regras`). Os fatos (`hoje`, `proximos`) vêm sempre das regras.
+- Frontend: a mensagem aparece sozinha na primeira entrada do dia (botão de brilho no topo reabre) e abre a conversa do Assistente.
 
 ## Erros
 Sempre `{ "detail": "mensagem" }`: 401 (sem token/token inválido/login errado), 404 (não encontrado ou de outro usuário), 409 (e-mail já cadastrado),
-<<<<<<< HEAD
 403 (rota só de admin), 422 (validação; `detail` é um texto, ex.: `"email: value is not a valid email address"`).
-=======
-422 (validação; `detail` é um texto, ex.: `"email: value is not a valid email address"`). 403 não é usado hoje.
->>>>>>> 12b45406a4e2c88ad2859f63e82f6d5ce74d09ca

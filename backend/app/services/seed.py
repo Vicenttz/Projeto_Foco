@@ -4,7 +4,7 @@ Contas de teste (criadas só se ainda não existirem; desligue com SEED_DEMO=fal
   Aluno:  aluno@foco.com  / Aluno@123
   Admin:  admin@foco.com  / Admin@123
 """
-from datetime import date, timedelta
+from datetime import date, time, timedelta
 
 from sqlalchemy import inspect, select, text
 from sqlalchemy.orm import Session
@@ -18,14 +18,28 @@ ADMIN = {"nome": "Administrador", "email": "admin@foco.com", "senha": "Admin@123
 
 
 def garantir_schema() -> None:
-    """Cria as tabelas que faltam e adiciona a coluna `papel` se o banco já existia sem ela."""
+    """Cria as tabelas que faltam e adiciona colunas novas (papel, campos da agenda) em bancos já existentes."""
     import app.models  # noqa: F401  (registra os models)
 
     Base.metadata.create_all(engine)
-    colunas = {c["name"] for c in inspect(engine).get_columns("usuarios")}
-    if "papel" not in colunas:
-        with engine.begin() as conn:
-            conn.execute(text("ALTER TABLE usuarios ADD COLUMN papel VARCHAR(20) NOT NULL DEFAULT 'usuario'"))
+    _adicionar_colunas("usuarios", {"papel": "VARCHAR(20) NOT NULL DEFAULT 'usuario'"})
+    # Calendário interativo: provas e estudos agendados (hora, duração, disciplina, observações, concluído).
+    _adicionar_colunas("eventos", {
+        "hora": "TIME",
+        "duracao_min": "INTEGER",
+        "disciplina_id": "INTEGER",
+        "descricao": "TEXT",
+        "concluido": "BOOLEAN NOT NULL DEFAULT 0",
+    })
+
+
+def _adicionar_colunas(tabela: str, colunas: dict[str, str]) -> None:
+    """Migração simples: adiciona as colunas que faltam em bancos criados por versões anteriores."""
+    existentes = {c["name"] for c in inspect(engine).get_columns(tabela)}
+    with engine.begin() as conn:
+        for nome, definicao in colunas.items():
+            if nome not in existentes:
+                conn.execute(text(f"ALTER TABLE {tabela} ADD COLUMN {nome} {definicao}"))
 
 
 def _criar_usuario(db: Session, dados: dict) -> tuple[Usuario, bool]:
@@ -82,12 +96,29 @@ def _dados_exemplo(db: Session, u: Usuario) -> None:
     db.add_all([t1, t2])
 
     db.add_all([
-        Evento(usuario_id=u.id, titulo="Prova de Cálculo", data=d(6), tipo="evento"),
-        Evento(usuario_id=u.id, titulo="Entrega do protótipo", data=d(3), tipo="entrega"),
-        Evento(usuario_id=u.id, titulo="Sessão de estudo: SQL", data=d(2), tipo="estudo"),
+        Evento(usuario_id=u.id, titulo="Prova de Cálculo", data=d(6), tipo="prova", hora=time(14, 0), duracao_min=120,
+               disciplina_id=calc.id, descricao="Capítulos 1 a 4: limites, derivadas e integrais."),
+        Evento(usuario_id=u.id, titulo="Entrega do protótipo", data=d(3), tipo="entrega", disciplina_id=web.id),
+        Evento(usuario_id=u.id, titulo="Estudo: SQL com JOIN", data=d(2), tipo="estudo", hora=time(19, 0), duracao_min=60,
+               disciplina_id=bd.id),
         Evento(usuario_id=u.id, titulo="Revisão em grupo", data=d(9), tipo="tarefa"),
     ])
     db.commit()
+
+
+def _atualizar_agenda_demo(db: Session, u: Usuario) -> None:
+    """Contas de teste criadas antes do calendário novo: converte a 'Prova' em prova de verdade (com hora)
+    e agenda uma sessão de estudo. Só roda se o aluno ainda não tem nenhuma prova."""
+    if db.scalar(select(Evento).where(Evento.usuario_id == u.id, Evento.tipo == "prova")):
+        return
+    calc = db.scalar(select(Disciplina).where(Disciplina.usuario_id == u.id, Disciplina.nome == "Cálculo I"))
+    antiga = db.scalar(select(Evento).where(Evento.usuario_id == u.id, Evento.titulo == "Prova de Cálculo"))
+    if antiga is not None:
+        antiga.tipo, antiga.hora, antiga.duracao_min = "prova", time(14, 0), 120
+        antiga.disciplina_id = calc.id if calc else None
+        db.add(Evento(usuario_id=u.id, titulo="Estudo: revisão de integrais", data=antiga.data - timedelta(days=2),
+                      tipo="estudo", hora=time(19, 0), duracao_min=90, disciplina_id=antiga.disciplina_id))
+        db.commit()
 
 
 def criar_usuarios_demo() -> None:
@@ -96,6 +127,8 @@ def criar_usuarios_demo() -> None:
         aluno, novo = _criar_usuario(db, ALUNO)
         if novo:
             _dados_exemplo(db, aluno)
+        else:
+            _atualizar_agenda_demo(db, aluno)
 
 
 def inicializar(seed: bool = True) -> None:

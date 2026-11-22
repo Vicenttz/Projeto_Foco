@@ -6,7 +6,7 @@ from pydantic.alias_generators import to_camel
 
 Prioridade = Literal["baixa", "media", "alta"]
 StatusTarefa = Literal["pendente", "em_andamento", "concluida"]
-TipoEvento = Literal["tarefa", "entrega", "evento", "estudo"]
+TipoEvento = Literal["prova", "estudo", "entrega", "tarefa", "evento"]
 
 
 class CamelModel(BaseModel):

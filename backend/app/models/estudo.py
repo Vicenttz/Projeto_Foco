@@ -20,6 +20,7 @@ class Disciplina(Base):
     cor: Mapped[str | None] = mapped_column(String(20), nullable=True)
 
     tarefas = relationship("Tarefa", back_populates="disciplina")
+    eventos = relationship("Evento", back_populates="disciplina")  # ao excluir a disciplina, eventos ficam sem disciplina
 
     @property
     def progresso(self) -> int:
